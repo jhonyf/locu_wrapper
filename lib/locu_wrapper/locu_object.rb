@@ -6,6 +6,32 @@ module Locu
       @uri        = URI(host+path)
     end
 
+    def search_by(query_params)
+      @uri.query = formulate_query(query_params)
+      response = Net::HTTP.get_response @uri
+      parse_response response
+    end
+
+    def method_missing(method, *args, &block)
+      # this allaws you do do something like
+      # search_by_name_and_location(name, location)
+      if method.to_s =~ /^search_by_(.+)$/
+        attrs = $1.split('_and_')
+        params = Hash[attrs.zip args]
+        search_by(params)
+      else
+        super
+      end
+    end
+
+    def respond_to?(meth)
+      if meth.to_s =~ /^search_by_.*$/
+        true
+      else
+        super
+      end
+    end
+
     private
 
     def formulate_query(params_hash)
