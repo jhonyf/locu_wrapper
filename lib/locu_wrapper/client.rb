@@ -24,8 +24,8 @@ module Locu
       menu_path  = "/#{API_VERSION}/menu_item/search/"
       venue_path = "/#{API_VERSION}/venue/search/"
 
-      @menu  = Locu::Menu.new(@connection, @host, menu_path, @api_key)
-      @venue = Locu::Menu.new(@connection, @host, venue_path, @api_key)
+      @menu  = Locu::Menu.new(@host, menu_path, @api_key)
+      @venue = Locu::Menu.new(@host, venue_path, @api_key)
     end
   end
 end
