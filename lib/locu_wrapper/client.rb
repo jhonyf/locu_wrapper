@@ -22,7 +22,7 @@ module Locu
 
     def setup_attributes
       menu_path  = "/#{API_VERSION}/menu_item/search/"
-      venue_path = "/#{API_VERSION}/venue/search/"
+      venue_path = "/#{API_VERSION}/venue/"
 
       @menu  = Locu::Menu.new(@host, menu_path, @api_key)
       @venue = Locu::Menu.new(@host, venue_path, @api_key)

@@ -6,10 +6,17 @@ module Locu
       @uri        = URI(host+path)
     end
 
+    # Returns venue details
+    def get(id)
+      uri = URI(@uri + id)
+      uri.query = formulate_query({})
+      parse uri
+    end
+
     def search_by(query_params)
-      @uri.query = formulate_query(query_params)
-      response = Net::HTTP.get_response @uri
-      parse_response response
+      uri = URI(@uri + "/search/")
+      uri.query = formulate_query(query_params)
+      parse uri
     end
 
     def method_missing(method, *args, &block)
@@ -33,7 +40,10 @@ module Locu
     end
 
     private
-
+    def parse(uri)
+      response = Net::HTTP.get_response uri
+      parse_response response
+    end
     def formulate_query(params_hash)
       params_with_key = params_hash.merge({:api_key => @api_key})
       URI.encode_www_form(params_with_key)
