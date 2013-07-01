@@ -3,18 +3,18 @@ module Locu
 
     def initialize(host, path, api_key)
       @api_key    = api_key
-      @uri        = URI(host+path)
+      @path = host+path
     end
 
     # Returns venue details
     def get(id)
-      uri = URI(@uri + id)
+      uri = URI(@path + id + "/")
       uri.query = formulate_query({})
       parse uri
     end
 
     def search_by(query_params)
-      uri = URI(@uri + "/search/")
+      uri = URI(@path + "/search/")
       uri.query = formulate_query(query_params)
       parse uri
     end
